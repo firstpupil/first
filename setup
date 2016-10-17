@@ -1,0 +1,5 @@
+mkdir -p ~/code/first/
+cd ~/code/first/
+git init
+git remote add origin https://firstpupil@bitbucket.org/firstpupil/first.git
+git pull origin master
