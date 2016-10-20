@@ -1,9 +1,0 @@
-append pythonpath in .bashrc
-
-export PYTHONPATH="/home/slacour/Documents/python/libraries/firstctrl:$PYTHONPATH"
-
-mkdir -p ~/Documents/python/libraries/firstctrl
-cd ~/Documents/python/libraries/firstctrl
-git init
-git remote add codemaster https://firstpupil@github.com/firstpupil/first.git
-git pull codemaster master

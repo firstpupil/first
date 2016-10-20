@@ -1,3 +1,8 @@
+# parameter files of the hardware
+*.[dm]cf
+# proprietary library of Iris
+IrisAO_PythonAPI
+
 # Compiled files
 *.a
 *.o
@@ -5,8 +10,6 @@
 __pycache__
 *.py[cod]
 
-calmems/*.[dm]cf
-libmems/*.so
 
 # Ignore .c files by default to avoid including generated code. If you want to
 # add a non-generated .c extension, use `git add -f filename.c`.
