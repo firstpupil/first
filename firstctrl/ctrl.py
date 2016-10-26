@@ -27,3 +27,33 @@
 import joystick as jk
 from . import core
 np = core.np
+from .mems import *
+
+
+__all__ = ['Ctrl']
+
+class Ctrl(jk.Joystick):
+   # initialize the infinite loop decorator
+    _infinite_loop = jk.deco_infinite_loop()
+
+    def _init(self, *args, **kwargs):
+        """
+        Function called at initialization, don't bother why for now
+        """
+        # create a graph frame
+        self.mygraph = self.add_frame(
+                   jk.Graph(name="tip-tilt", size=(500, 500), pos=(50, 50),
+                            fmt="ko", xnpts=37, xnptsmax=37, freq_up=3, bgcol="w",
+                            xylim=(-6,6,-6,6)))
+        self.mems = mems()
+
+    @_infinite_loop(wait_time=0.2)
+    def _generate_fake_data(self):  # function looped every 0.2 second
+        """
+        Loop starting with simulation start, getting data and
+        pushing it to the graph every 0.2 seconds
+        """
+        # get pos of mems
+        self.mems.get_pos()
+        # push new data to the graph
+        self.mygraph.set_xydata(self.mems._pos[:,0], self.mems._pos[:,1])
