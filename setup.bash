@@ -7,6 +7,7 @@ Create a symbolib link named libirisao.devices.so to libirisao.devices.1.0.2.5.s
 
 drop the .so library in the right folder "/usr/lib/irisao/"
 
+
 export PYTHONPATH="/home/slacour/Documents/python/libraries/firstctrl:$PYTHONPATH"
 
 mkdir -p ~/Documents/python/libraries/firstctrl

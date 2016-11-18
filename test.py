@@ -16,7 +16,7 @@
 mirror_num = 'FSC37-01-11-0308'
 driver_num = '04160165'
 nbSegments = 37
-disableHW = True # True or False
+disableHW = False # True or False
  
  
 # Import control functions from the package
@@ -94,7 +94,7 @@ except Exception as e:
     print "There was an error sending parameters to the mirror"
  
 try:
-    print "Position of segment 1: ", IrisAO_API.GetMirrorPosition(mirror, 1)[0]
+    print "Position of segment 1: ", IrisAO_API.GetMirrorPosition(mirror, 1)
 except Exception as e:
     print e
     print "There was an error reading from the mirror"
