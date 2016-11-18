@@ -1,3 +1,28 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+###############################################################################
+#  
+#  FIRSTCTRL - Pupil remapping control software
+#  Copyright (C) 2016  Guillaume Schworer
+#  
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#  
+#  For any information, bug report, idea, donation, hug, beer, please contact
+#    guillaume.schworer@gmail.com
+#
+###############################################################################
 
 
 from . import core
@@ -10,9 +35,9 @@ IrisAO_API = core.IrisAO_API
 __all__ = ['Mems']
 
 class Mems(object):
-    def __init__(self, hardware=False):
+    def __init__(self, hardware=False, first_segs=[]):
         self._connected = False
-        self.first_segs = []
+        self.first_segs = first_segs
         self._pos = np.zeros((37, 3))
         #self.connect(hardware=hardware)
 
@@ -65,15 +90,15 @@ class Mems(object):
                                  IrisAO_API.MirrorInitSettings)
         self._pos = np.zeros((37, 3))
 
-    def _clean_segment(elm):
+    def _clean_segment(self, elm):
         if isinstance(elm, int):
             return elm, 1
         elif hasattr(elm, '__iter__'):
-            elm = [item for item in clean_list(elm) if item > 0 and item <= NSEGMENTS]
+            elm = [item for item in core.clean_list(elm) if item > 0 and item <= core.NSEGMENTS]
         elif elm.lower() == 'first':
             elm = self.first_segs
         elif elm.lower() == 'all':
-            elm = range(1, NSEGMENTS+1)
+            elm = range(1, core.NSEGMENTS+1)
         else:
             return None
         return elm, len(elm)

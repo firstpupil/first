@@ -24,10 +24,11 @@
 #
 ###############################################################################
 
+
 import joystick as jk
 from . import core
 np = core.np
-from .mems import *
+from .mems import Mems
 
 
 __all__ = ['Ctrl']
@@ -36,16 +37,15 @@ class Ctrl(jk.Joystick):
    # initialize the infinite loop decorator
     _infinite_loop = jk.deco_infinite_loop()
 
-    def _init(self, *args, **kwargs):
-        """
-        Function called at initialization, don't bother why for now
-        """
+    def _init(self, **kwargs):
+        first_seg = kwargs.get('first_seg', [])
         # create a graph frame
         self.mygraph = self.add_frame(
                    jk.Graph(name="tip-tilt", size=(500, 500), pos=(50, 50),
-                            fmt="ko", xnpts=37, xnptsmax=37, freq_up=3, bgcol="w",
-                            xylim=(-6,6,-6,6)))
-        self.mems = mems()
+                            fmt="ko", xnpts=len(first_seg), xnptsmax=len(first_seg), freq_up=3, bgcol="w",
+                            xylim=(-core.TIPTILTMAX, core.TIPTILTMAX,
+                                   -core.TIPTILTMAX, core.TIPTILTMAX)))
+        self.mems = Mems(first_segs)
 
     @_infinite_loop(wait_time=0.2)
     def _generate_fake_data(self):  # function looped every 0.2 second
@@ -53,7 +53,10 @@ class Ctrl(jk.Joystick):
         Loop starting with simulation start, getting data and
         pushing it to the graph every 0.2 seconds
         """
-        # get pos of mems
-        self.mems.get_pos()
-        # push new data to the graph
-        self.mygraph.set_xydata(self.mems._pos[:,0], self.mems._pos[:,1])
+        # If the connection to the mems got killed
+        self.running = self.mems.connected
+        if self.mems.connected:
+            # get pos of mems
+            self.mems.get_pos('all')
+            # push new data to the graph
+            self.mygraph.set_xydata(self.mems._pos[:,0], self.mems._pos[:,1])

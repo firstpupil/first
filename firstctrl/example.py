@@ -24,18 +24,20 @@
 #
 ###############################################################################
 
-# do the import and path append here
+FIRST_SEG = [1,4,7]
 
-
+import numpy as np
+import sys
+sys.path.append('/home/slacour/Documents/python/libraries/firstctrl')
 import firstctrl as fc
-c = fc.ctrl.Ctrl()
+c = fc.ctrl.Ctrl(first_seg=FIRST_SEG)
 # a graph frame should pop up
 
 c.mems.connect()  # get connection
 c.mems.flat()
 c.start()
 
-c.mems.set_pos(1, tip=0.2, tilt=-0.2)
+c.mems.set_pos([1], tip=[0.2], tilt=[-0.2])
 # within a fraction of a second, the graph should update to show a dot that moved
 
 # finally, disconnect:
